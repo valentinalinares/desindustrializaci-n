@@ -1,0 +1,9 @@
+# Archivos de entorno de RStudio
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Archivos de salida generados
+*.png
+*.pdf
