@@ -1,26 +1,20 @@
----
-title: "Práctica 1, Módulo 3: Desindustrialización y Empleo Industrial"
-author: "Durga Valentina Linares Herrera"
-output: github_document
----
-
-```{r setup, include=FALSE}
-# Este chunk de configuración inicial carga todas las librerías necesarias.
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-library(tidyverse)
-library(ggthemes)
-library(scales)
-library(forcats)
-options(scipen = 999) # Evita la notación científica
-```
+Práctica 1, Módulo 3: Desindustrialización y Empleo Industrial
+================
+Durga Valentina Linares Herrera
 
 ## Introducción
 
-Este documento presenta la resolución de los ejercicios de la Práctica 1 del Módulo 3 de la **Diplomatura PAEEC - UBA**, centrada en el análisis de la desindustrialización. El análisis se basa en datos del trabajo de Graña y Terranova (2022).
+Este documento presenta la resolución de los ejercicios de la Práctica 1
+del Módulo 3 de la **Diplomatura PAEEC - UBA**, centrada en el análisis
+de la desindustrialización. El análisis se basa en datos del trabajo de
+Graña y Terranova (2022).
 
-**Nota Importante:** Para que este código funcione correctamente, el archivo `empleo_industrial.csv` debe estar guardado en la **misma carpeta** que este archivo `.Rmd`. Se ha modificado la ruta de carga del archivo para reflejar esto.
+**Nota Importante:** Para que este código funcione correctamente, el
+archivo `empleo_industrial.csv` debe estar guardado en la **misma
+carpeta** que este archivo `.Rmd`. Se ha modificado la ruta de carga del
+archivo para reflejar esto.
 
-```{r carga-y-preparacion-datos}
+``` r
 # Se carga el dataset y se realiza un filtrado y limpieza inicial.
 # Este objeto 'datos_empleo_base' servirá para ambos ejercicios.
 datos_empleo_base <- read_csv("empleo_industrial.csv") %>%
@@ -33,13 +27,16 @@ datos_empleo_base <- read_csv("empleo_industrial.csv") %>%
   mutate(pp_empleo_industrial = Ocup_INDUSTRIA / Ocup_TOTAL_ECONOMIA)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Consigna 1: Evolución de la Participación del Empleo Industrial
 
-Se construye un gráfico de líneas para observar la evolución de la participación del empleo industrial en el empleo total para Alemania, Argentina, China y México. Se utiliza un número índice con base 1991=100 para facilitar la comparación de las trayectorias relativas.
+Se construye un gráfico de líneas para observar la evolución de la
+participación del empleo industrial en el empleo total para Alemania,
+Argentina, China y México. Se utiliza un número índice con base 1991=100
+para facilitar la comparación de las trayectorias relativas.
 
-```{r grafico-consigna-1, fig.width=10, fig.height=6, dpi=150}
+``` r
 # Filtrado y cálculo del índice para los países seleccionados
 datos_indice_paises <- datos_empleo_base %>%
   filter(País %in% c("DEU", "ARG", "CHN", "MEX")) %>%
@@ -75,31 +72,40 @@ ggplot(datos_indice_paises, aes(x = Anio, y = indice, color = País, group = Pa�
   )
 ```
 
+![](m3pc1_files/figure-gfm/grafico-consigna-1-1.png)<!-- -->
+
 ### Interpretación del Gráfico 1
 
-*Iustra la evolución de la participación del empleo industrial en el empleo
-total para Alemania (DEU), Argentina (ARG), China (CHN) y México (MEX) durante
-el período 1991-2018. Se destaca la trayectoria de China, que experimenta un
-significativo crecimiento en la importancia de su empleo industrial, superando a los
-demás países y marcando un pico notable antes de una leve moderación. En contraste,
-Alemania evidencia una disminución gradual en su participación industrial, mientras
-que México y Argentina presentan niveles más bajos y con diferentes dinámicas a lo
-largo del período. El caso de China es particular: representa una excepción y un nuevo
-paradigma en la dinámica global de industrialización. Desde finales del siglo XX, su
-conversión en la “fábrica del mundo”, impulsada por la atracción de inversión
-extranjera y una vasta mano de obra de bajo costo, le permitió desarrollar una poderosa
-base manufacturera. Este auge ha sido un factor relevante en los procesos de
-desindustrialización observados en otras economías, tanto avanzadas como en
-desarrollo, incluyendo América Latina, al desplazar industrias locales y, en algunos
-casos, fomentar una reprimarización de las exportaciones.*
+*Iustra la evolución de la participación del empleo industrial en el
+empleo total para Alemania (DEU), Argentina (ARG), China (CHN) y México
+(MEX) durante el período 1991-2018. Se destaca la trayectoria de China,
+que experimenta un significativo crecimiento en la importancia de su
+empleo industrial, superando a los demás países y marcando un pico
+notable antes de una leve moderación. En contraste, Alemania evidencia
+una disminución gradual en su participación industrial, mientras que
+México y Argentina presentan niveles más bajos y con diferentes
+dinámicas a lo largo del período. El caso de China es particular:
+representa una excepción y un nuevo paradigma en la dinámica global de
+industrialización. Desde finales del siglo XX, su conversión en la
+“fábrica del mundo”, impulsada por la atracción de inversión extranjera
+y una vasta mano de obra de bajo costo, le permitió desarrollar una
+poderosa base manufacturera. Este auge ha sido un factor relevante en
+los procesos de desindustrialización observados en otras economías,
+tanto avanzadas como en desarrollo, incluyendo América Latina, al
+desplazar industrias locales y, en algunos casos, fomentar una
+reprimarización de las exportaciones.*
 
----
+------------------------------------------------------------------------
 
 ## Consigna 2: Participación del Empleo Industrial por Regiones
 
-Para esta consigna, se construye un gráfico de barras apiladas que muestra la participación del empleo industrial de cada región en el empleo total de todos los países de la muestra para cada año. Las opciones del chunk (`fig.width=7`, `fig.height=11`) aseguran que el gráfico se genere en un formato vertical para una mejor visualización.
+Para esta consigna, se construye un gráfico de barras apiladas que
+muestra la participación del empleo industrial de cada región en el
+empleo total de todos los países de la muestra para cada año. Las
+opciones del chunk (`fig.width=7`, `fig.height=11`) aseguran que el
+gráfico se genere en un formato vertical para una mejor visualización.
 
-```{r grafico-consigna-2, fig.width=7, fig.height=11, dpi=300}
+``` r
 # Preparación de datos específica para la consigna 2
 datos_regiones <- datos_empleo_base %>%
   filter(!is.na(Regiones.economicas) & !is.na(Ocup_INDUSTRIA)) %>%
@@ -161,16 +167,16 @@ grafico_definitivo <- ggplot(datos_para_grafico_2, aes(x = Participacion_Region_
 print(grafico_definitivo)
 ```
 
+![](m3pc1_files/figure-gfm/grafico-consigna-2-1.png)<!-- -->
+
 ### Interpretación del Gráfico 2
 
-*Representa la participación porcentual de distintas
-regiones económicas (Developed, East Asia, Latin American) en el empleo industrial
-total de la muestra de países, anualmente desde 1991 hasta 2018. Se observa una clara
-transformación: la región “East Asia” incrementa drásticamente su participación a lo
-largo del período, convirtiéndose en la principal contribuyente al empleo industrial de la
-muestra hacia los años más recientes. Mientras tanto, la participación de la región
-“Developed” disminuye considerablemente, y “Latin American” mantiene una cuota
-menor y relativamente estable.*
-
-
-
+*Representa la participación porcentual de distintas regiones económicas
+(Developed, East Asia, Latin American) en el empleo industrial total de
+la muestra de países, anualmente desde 1991 hasta 2018. Se observa una
+clara transformación: la región “East Asia” incrementa drásticamente su
+participación a lo largo del período, convirtiéndose en la principal
+contribuyente al empleo industrial de la muestra hacia los años más
+recientes. Mientras tanto, la participación de la región “Developed”
+disminuye considerablemente, y “Latin American” mantiene una cuota menor
+y relativamente estable.*
