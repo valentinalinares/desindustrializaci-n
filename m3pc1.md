@@ -144,8 +144,7 @@ grafico_definitivo <- ggplot(datos_para_grafico_2, aes(x = Participacion_Region_
   scale_fill_manual(values = paleta_final) +
   scale_x_continuous(labels = percent_format(accuracy = 1L), expand = c(0, 0.01)) +
   scale_y_discrete(limits = rev) +
-  labs(title = "Participación del Empleo Industrial
-por Región Económica",
+  labs(title = "Participación del Empleo Industrial por Región Económica",
        subtitle = "Comparación del cambio entre 1991 y 2018",
        x = "Participación en el Empleo Industrial Total", y = "Año", fill = NULL) +
   theme_minimal(base_size = 14) +
